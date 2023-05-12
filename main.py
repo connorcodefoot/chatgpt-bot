@@ -1,7 +1,9 @@
 import os
 import openai
+from dotenv.main import load_dotenv
+load_dotenv()
 
-openai.api_key = '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'
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 while True:
   question = input("\033[31m What is your question?\033[0m\n")
