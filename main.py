@@ -1,25 +1,16 @@
 import os
-import openai
+from langchain import OpenAI, ConversationChain
 from dotenv.main import load_dotenv
 load_dotenv()
 
-openai.api_key = os.environ['OPENAI_API_KEY']
+OpenAI.api_key = os.environ['OPENAI_API_KEY']
 
-while True:
-  question = input("\033[31m What is your question?\033[0m\n")
+llm = OpenAI(temperature=0)
+conversation = ConversationChain(llm=llm, verbose=True)
 
-  if question == "exit":
-    print("\033[31m Goodbye \033[0m\n")
-    break
+x = 0
+while x < 10: 
+  output = conversation.predict(input=input())
+  print(output)
+  x += 1
 
-  completion = openai.ChatCompletion.create(
-    model="gpt-3.5-turbo",
-    messages=[{
-      "role": "system",
-      "content": "You are an assistant, answer the given question"
-    }, {
-      "role": "user",
-      "content": question
-    }])
-
-  print("\033[32m" + completion.choices[0].message.content + "\n")
